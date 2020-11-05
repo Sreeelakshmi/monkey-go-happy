@@ -1,5 +1,6 @@
-var banana,obstacles,monkey;
+  var banana,obstacles,monkey;
 var c,go,monkeyrunning;
+var count=0;
 function preload(){
   c=loadImage("banana.png");
   go=loadImage("obstacle.png");
@@ -37,11 +38,11 @@ ground.velocityX=-5;
 function draw() {
   background("white");
   if(gamestate=="play"){
-  if (touches.length>0||keyDown("space")&&monkey.y>340) {
+  if(keyDown("space")&&monkey.y>340) {
     monkey.velocityY=-15;
    // playSound("sound://category_instrumental/chime.mp3");
     
-  touches=[]}
+ }
  //score=score+Math.round(frameRate()/60);
   monkey.velocityY=monkey.velocityY+0.6;
  
@@ -58,9 +59,17 @@ function draw() {
  }
   
   if (monkey.isTouching(obsgrp)) {
-   gamestate="end";
+  count=count+1;
+    obsgrp.destroyEach();
+  
+  gamestate="play";}
+  if(count==1){
+    monkey.scale=0.05;
+   
+  } 
+  if(count>1){
+    gamestate="end";
   }
-    
   }
   if(gamestate=="end"){ ground.velocityX=0;
     obsgrp.setVelocityXEach(0);
@@ -77,7 +86,7 @@ function draw() {
   drawSprites();
 textSize(20);
 text("score"+score, 400, 400);
-
+text(count,500,500)
 
   
 
